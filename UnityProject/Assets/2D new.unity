@@ -1071,7 +1071,7 @@ GameObject:
   - component: {fileID: 760332203}
   - component: {fileID: 760332207}
   m_Layer: 0
-  m_Name: "\u7B49\u5F85"
+  m_Name: "\u7537\u5B69"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1208,10 +1208,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce65777e9feab274d8e5d666992f1a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3.5
+  speed: 15
   jump: 300
   isGround: 0
   _name: KID
+  r2d: {fileID: 760332202}
+  ani: {fileID: 760332204}
 --- !u!1 &884234230
 GameObject:
   m_ObjectHideFlags: 0

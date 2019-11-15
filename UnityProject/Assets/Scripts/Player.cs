@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    #region 欄位區域
     // private 私人
     // publice 公开
     [Header("速度")][Range(0f,100f)]
@@ -14,4 +15,48 @@ public class Player : MonoBehaviour
     public bool isGround = false;   //布林 -true、false
     [Header("角色名称")]
     public string _name = "KID";    //字符串
+    [Header("元件")]
+    public Rigidbody2D r2d;
+    public Animator ani;
+    #endregion
+    
+    private void Move()
+    {
+        float h= Input.GetAxisRaw("Horizontal");  //輸入.取得軸向("水平")左右與AD
+        r2d.AddForce(new Vector2(speed*h, 0));
+        ani.SetBool("奔跑开关", h != 0);          //動畫元件，設定布林值
+    }
+    private void Jump()
+    {
+        //如果按下空白鍵 並且在地板上 等於 勾選
+        if (Input.GetKeyDown(KeyCode.UpArrow)&& isGround==true)
+        {
+            //在地板上=取消
+            isGround = false;
+            //剛體.推力（往上）
+            r2d.AddForce(new Vector2(0, jump));
+        }
+    }
+    private void Dead()s
+    {
+
+    }
+
+    //事件：在特定時間點以指定次數執行
+    //更新事件：一秒執行約60次（60FPS）
+
+    private void Update()
+    {
+        Move();
+        Jump();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //如果 碰撞.物件.名稱 等於“地板”
+        if(collision.gameObject.name=="地板")
+        {
+            isGround = true;
+        }
+    }
 }
