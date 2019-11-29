@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     [Header("元件")]
     public Rigidbody2D r2d;
     public Animator ani;
+    [Header("音效區域")]
+    public AudioSource and;
+    public AudioClip soundDiamond;
     #endregion
     
     private void Move()
@@ -25,6 +28,15 @@ public class Player : MonoBehaviour
         float h= Input.GetAxisRaw("Horizontal");  //輸入.取得軸向("水平")左右與AD
         r2d.AddForce(new Vector2(speed*h, 0));
         ani.SetBool("奔跑开关", h != 0);          //動畫元件，設定布林值
+
+        if (Input.GetKeyDown(KeyCode.A ) || Input.GetKeyDown(KeyCode.LeftArrow)) //如果 按下“A”或者“←”按鍵=(0,180,0)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) //如果 按下“D”或者“→”按鍵=(0,0,0)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
     }
     private void Jump()
     {
@@ -35,9 +47,11 @@ public class Player : MonoBehaviour
             isGround = false;
             //剛體.推力（往上）
             r2d.AddForce(new Vector2(0, jump));
+
+            ani.SetTrigger("跳跃触发"); //動畫元件，設定触发器（“参数”）
         }
     }
-    private void Dead()s
+    private void Dead()
     {
 
     }
