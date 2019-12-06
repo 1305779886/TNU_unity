@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; //引用 界面 API
 
 public class Player : MonoBehaviour
 {
@@ -19,8 +20,12 @@ public class Player : MonoBehaviour
     public Rigidbody2D r2d;
     public Animator ani;
     [Header("音效區域")]
-    public AudioSource and;
+    public AudioSource aud;
     public AudioClip soundDiamond;
+    [Header("鑽石區域")]
+    public int diamondCurrent;
+    public int diamondTotal;
+    public Text textDiamond;
     #endregion
     
     private void Move()
@@ -55,7 +60,12 @@ public class Player : MonoBehaviour
     {
 
     }
-
+    private void Start()
+    {
+        //鑽石數量= 尋找所有指定標籤物件("指定標籤").數量
+        diamondTotal= GameObject.FindGameObjectsWithTag("钻石").Length;
+        textDiamond.text = "鑽石：0 /" + diamondTotal;
+    }
     //事件：在特定時間點以指定次數執行
     //更新事件：一秒執行約60次（60FPS）
 
@@ -65,12 +75,25 @@ public class Player : MonoBehaviour
         Jump();
     }
 
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //如果 碰撞.物件.名稱 等於“地板”
         if(collision.gameObject.name=="地板")
         {
             isGround = true;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "钻石")
+        {
+            aud.PlayOneShot(soundDiamond, 1.5f); //音源.播放一次音效（音效，音量）
+            Destroy(collision.gameObject);       //删除（碰撞的物体）
+            diamondCurrent++;                    //遞增
+            textDiamond.text = "鑽石：" + diamondCurrent + " / " + diamondTotal;
+
         }
     }
 }
